@@ -1,11 +1,3 @@
-Absolutely, let's create a README.md for your Elixir-based `cool_names` project.
-
----
-
-# Elixir Cool Names Project
-
-## Introduction
-
 Hey folks! This is one of my learning projects in Elixir. The project is inspired by my C++ [modern_monadic_operations](https://github.com/BusterWarn/learning_cpp/tree/main/functional_programming_using_cpp/modern_monadic_operations) exercise. The idea is to take a list of names and jazz them up by converting them to lowercase, converting them to snake_case, and prefixing them with "cool_". Many things can go wrong when jazzing up names; so one might wonder, do monads really exist in Elixir?
 
 ## Elixir Concepts Used

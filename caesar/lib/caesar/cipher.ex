@@ -13,6 +13,7 @@ defmodule Caesar.Cipher do
 
   """
 
+@spec encrypt(String.t(), integer()) :: String.t()
 def encrypt(string, shift) when is_binary(string) and is_integer(shift) do
   # Convert msg to char_list
   string

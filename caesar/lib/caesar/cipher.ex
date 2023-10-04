@@ -1,26 +1,29 @@
 defmodule Caesar.Cipher do
   @moduledoc """
   Documentation for `Caesar.Cipher`.
+  Read more on Wikipedia: [Caesar Cipher](https://en.wikipedia.org/wiki/Caesar_cipher)!
   """
+
+  require Logger
+  # Cannot get this to work... @alphabet_size Application.compile_env(:caesar, :alphabet_size)
+  @alphabet_size Application.compile_env(:caesar, :alphabet_size, 26)
 
   @doc """
-  [Caesar Cipher](https://en.wikipedia.org/wiki/Caesar_cipher).
+  Encrypts string with shift.
+    ## Examples
+        iex> Caesar.Cipher.encrypt("Hello World!", -10)
+        "Rovvy Gybvn!"
+    """
+  @spec encrypt(String.t(), integer()) :: String.t()
+  def encrypt(string, shift) when is_binary(string) and is_integer(shift) do
+    Logger.debug("Encrypt \"#{string}\" with shift \"#{shift}\"")
 
-  ## Examples
-
-      iex> Caesar.Cipher.encrypt("Hello World!", -10)
-      "Rovvy Gybvn!"
-
-  """
-
-@spec encrypt(String.t(), integer()) :: String.t()
-def encrypt(string, shift) when is_binary(string) and is_integer(shift) do
-  # Convert msg to char_list
-  string
+    # Convert msg to char_list
+    string
     |> to_charlist()
-  # Iterate over list apply shift mapping
+    # Iterate over list apply shift mapping
     |> Enum.map(&shift_char(&1, shift))
-  # Return list as binary string
+    # Return list as binary string
     |> List.to_string
   end
 
@@ -31,8 +34,6 @@ def encrypt(string, shift) when is_binary(string) and is_integer(shift) do
       chr -> chr
     end
   end
-
-  @alphabet_size 26
 
   defp calculate_mapping(base_letter, char, shift) do
     # Find the ASCII integer of the char and normalize it

@@ -7,6 +7,7 @@ defmodule PhoenixWithSqlite3Web.Router do
 
   scope "/api", PhoenixWithSqlite3Web do
     pipe_through :api
+    get "/counter", CounterController, :get_count
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

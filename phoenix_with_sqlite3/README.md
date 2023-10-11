@@ -1,4 +1,33 @@
-# Phoenix With Sqlite3
+# Counter Example with Elixir, Phoenix and Sqlite3
+
+## About
+This project demonstrates a simple counter API built with Elixir and the Phoenix Framework. The API allows you to get, increment, and decrement an integer value (`count`) in a SQLite database.
+
+## Key Concepts
+- **Phoenix Framework**: A web development framework written in Elixir.
+- **Ecto**: Elixir's database wrapper; used for schemas, querying, etc.
+- **Repo**: Ecto's API for executing database queries.
+- **Schema**: Describes the database table and fields. Used by Ecto.
+- **Controller**: Handles incoming HTTP requests and responds.
+- **Routes**: URL patterns for the API endpoints.
+
+## How to Use
+1. **Get Count**: Make a GET request to `/api/counter` to retrieve the current count.
+2. **Increment Count**: POST request to `/api/counter/increment`. (Not implemented)
+3. **Decrement Count**: POST request to `/api/counter/decrement`. (Not implemented)
+
+## Installation
+1. `mix deps.get` to fetch dependencies.
+2. `mix ecto.create` and `mix ecto.migrate` to set up the database.
+3. `mix phx.server` to run the server.
+
+## Testing
+Tests can be added in the `/test` directory; use `mix test` to run them.
+
+## Observations
+- Ecto makes database interactions seamless.
+- Phoenix controllers are pretty straightforward for handling logic.
+- Learning how to properly use `Repo.get` and `Repo.insert`.
 
 ### Some problems with Sqlite3 on Windows
 
@@ -32,7 +61,6 @@ PS learning_elixir\phoenix_with_sqlite3> cmd /k "C:\Program Files (x86)\Microsof
 ```
 
 Yeah and it's already mentioned in the [documentation](https://github.com/elixir-sqlite/exqlite/blob/main/guides/windows.md)...
-
 
 ### To start your Phoenix server:
 

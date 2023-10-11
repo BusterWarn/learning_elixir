@@ -3,7 +3,7 @@
 ## About
 This project demonstrates a simple counter API built with Elixir and the Phoenix Framework. The API allows you to get, increment, and decrement an integer value (`count`) in a SQLite database.
 
-Big thanks to contributors: @wiengman, @trebish, @elfvingc, @BlindAnguis!!!!
+Big thanks to contributors: [wiengman](https://github.com/wiengman), [trebish](https://github.com/trebish), [elfvingc](https://github.com/elfvingc), [BlindAnguis](https://github.com/BlindAnguis)!!!!
 
 ## Key Concepts
 - **Phoenix Framework**: A web development framework written in Elixir.

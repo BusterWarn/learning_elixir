@@ -5,12 +5,13 @@ defmodule StaticData do
             investment_rate: 0.07,
             years_to_calculate: 5,
             tax_deduction_on_interest_payment: 0.3,
-            interest_payments_go_down_with_repays: true
+            months_between_adjusting_interest_payments: 1
 end
 
 defmodule PayOffLoanStrategyData do
   defstruct loan_size: nil,
-            total_interest_payment_to_bank: 0
+            total_interest_payment_to_bank: 0,
+            current_interest_payment: 0
 end
 
 defmodule InvestingStrategyData do
@@ -39,8 +40,10 @@ defmodule DebtInvestSimulator do
             get_float_input(
               "Enter tax deduction on interest payment as a decimal (e.g., 0.3 for 30%): "
             ),
-          interest_payments_go_down_with_repays:
-            get_yes_no_input("Interest payments go down with repays? (yes/no): ")
+          months_between_adjusting_interest_payments:
+            get_integer_input(
+              "Months between adjusting interest payments (e.g. 3 for 3 months): "
+            )
         }
       end
 
@@ -84,8 +87,8 @@ defmodule DebtInvestSimulator do
     new_pay_off_loan_strategy_data =
       make_payment_pay_off_loan_strategy(
         static_data,
-        pay_off_loan_strategy_data.loan_size,
-        pay_off_loan_strategy_data.total_interest_payment_to_bank
+        pay_off_loan_strategy_data,
+        month
       )
 
     # Investing
@@ -112,29 +115,36 @@ defmodule DebtInvestSimulator do
 
   defp make_payment_pay_off_loan_strategy(
          static_data,
-         loan,
-         total_interest_payment_to_bank
+         strategy_data,
+         month
        ) do
     # Calculate monthly interest payment
-    interest_payment_loan_part =
+
+    interest_payment =
       cond do
-        static_data.interest_payments_go_down_with_repays -> loan
-        true -> static_data.original_loan
+        rem(month, static_data.months_between_adjusting_interest_payments) == 0 ->
+          calculate_monthly_interest_payment(
+            strategy_data.loan_size,
+            static_data.interest_rate
+          )
+
+        true ->
+          strategy_data.current_interest_payment
       end
 
-    monthly_interest =
-      calculate_monthly_interest_payment(interest_payment_loan_part, static_data.interest_rate)
+    after_tax_interest = interest_payment * (1 - static_data.tax_deduction_on_interest_payment)
 
-    after_tax_interest = monthly_interest * (1 - static_data.tax_deduction_on_interest_payment)
-    total_interest_payment_to_bank = total_interest_payment_to_bank + after_tax_interest
+    total_interest_payment_to_bank =
+      strategy_data.total_interest_payment_to_bank + after_tax_interest
 
     # Amount left after paying interest
     principal_payment = max(static_data.monthly_cash - after_tax_interest, 0)
-    new_loan_size = max(loan - principal_payment, 0)
+    new_loan_size = max(strategy_data.loan_size - principal_payment, 0)
 
     %PayOffLoanStrategyData{
       loan_size: new_loan_size,
-      total_interest_payment_to_bank: total_interest_payment_to_bank
+      total_interest_payment_to_bank: total_interest_payment_to_bank,
+      current_interest_payment: interest_payment
     }
   end
 
